@@ -346,6 +346,40 @@ input[type="range"] {
   transform: scaleX(-1);
 }
 
+.next-preview {
+  display: grid;
+  gap: 8px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  opacity: 0.72;
+}
+
+.next-preview span {
+  color: #6fd1bb;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.next-preview p {
+  color: rgba(252, 251, 247, 0.78);
+  font-size: clamp(18px, calc(var(--font-size, 56px) * 0.42), 34px);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.next-preview.is-empty {
+  opacity: 0.42;
+}
+
+.prompter-stage.light .next-preview {
+  border-top-color: rgba(17, 19, 21, 0.14);
+}
+
+.prompter-stage.light .next-preview p {
+  color: rgba(17, 19, 21, 0.68);
+}
+
 .sentence-footer {
   display: flex;
   justify-content: space-between;

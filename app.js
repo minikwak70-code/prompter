@@ -53,6 +53,8 @@ const elements = {
   prompterStage: document.querySelector("#prompterStage"),
   promptBox: document.querySelector("#promptBox"),
   sentenceText: document.querySelector("#sentenceText"),
+  nextPreview: document.querySelector("#nextPreview"),
+  nextSentenceText: document.querySelector("#nextSentenceText"),
   sentenceTimer: document.querySelector("#sentenceTimer"),
   sentenceIndex: document.querySelector("#sentenceIndex"),
   progressBar: document.querySelector("#progressBar"),
@@ -149,6 +151,8 @@ function showSentence(index = state.currentIndex) {
 
   if (!count) {
     elements.sentenceText.textContent = "대본을 붙여넣고 프롬프터 준비를 누르세요.";
+    elements.nextSentenceText.textContent = "대본을 준비하면 다음 문장이 여기에 보입니다.";
+    elements.nextPreview.classList.remove("is-empty");
     elements.sentenceTimer.textContent = "0.0초";
     elements.sentenceIndex.textContent = "0 / 0";
     elements.progressBar.style.width = "0%";
@@ -158,9 +162,12 @@ function showSentence(index = state.currentIndex) {
 
   state.currentIndex = Math.min(Math.max(index, 0), count - 1);
   const sentence = state.sentences[state.currentIndex];
+  const nextSentence = state.sentences[state.currentIndex + 1];
   const duration = state.durations[state.currentIndex];
 
   elements.sentenceText.textContent = sentence;
+  elements.nextSentenceText.textContent = nextSentence || "다음 문장이 없습니다.";
+  elements.nextPreview.classList.toggle("is-empty", !nextSentence);
   elements.sentenceTimer.textContent = `${duration.toFixed(1)}초`;
   elements.sentenceIndex.textContent = `${state.currentIndex + 1} / ${count}`;
   elements.progressBar.style.width = "0%";
