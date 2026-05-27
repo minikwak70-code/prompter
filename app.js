@@ -45,6 +45,8 @@ const elements = {
   widthOutput: document.querySelector("#widthOutput"),
   darkToggle: document.querySelector("#darkToggle"),
   mirrorToggle: document.querySelector("#mirrorToggle"),
+  hideSettingsButton: document.querySelector("#hideSettingsButton"),
+  showSettingsButton: document.querySelector("#showSettingsButton"),
   prevButton: document.querySelector("#prevButton"),
   playButton: document.querySelector("#playButton"),
   nextButton: document.querySelector("#nextButton"),
@@ -306,6 +308,13 @@ async function toggleFullscreen() {
   elements.prompterStage.focus({ preventScroll: true });
 }
 
+function setSettingsHidden(hidden) {
+  document.body.classList.toggle("settings-hidden", hidden);
+  elements.showSettingsButton.hidden = !hidden;
+  elements.hideSettingsButton.setAttribute("aria-expanded", String(!hidden));
+  elements.prompterStage.focus({ preventScroll: true });
+}
+
 function bindEvents() {
   elements.prepareButton.addEventListener("click", prepareScript);
   elements.sampleButton.addEventListener("click", () => {
@@ -317,6 +326,8 @@ function bindEvents() {
   elements.resetButton.addEventListener("click", () => goToSentence(0));
   elements.playButton.addEventListener("click", togglePlay);
   elements.fullscreenButton.addEventListener("click", toggleFullscreen);
+  elements.hideSettingsButton.addEventListener("click", () => setSettingsHidden(true));
+  elements.showSettingsButton.addEventListener("click", () => setSettingsHidden(false));
   elements.prompterStage.addEventListener("click", () => goToSentence(state.currentIndex + 1));
 
   elements.positionGrid.addEventListener("click", (event) => {
@@ -375,6 +386,8 @@ function bindEvents() {
     }
     if (event.key === "Escape" && document.body.classList.contains("is-fullscreen")) {
       toggleFullscreen();
+    } else if (event.key === "Escape" && document.body.classList.contains("settings-hidden")) {
+      setSettingsHidden(false);
     }
   });
 
@@ -388,6 +401,7 @@ function init() {
   setPosition(state.currentPosition);
   loadDraft();
   setPosition(state.currentPosition);
+  setSettingsHidden(false);
   applyDisplaySettings();
 
   if (elements.scriptInput.value.trim()) {

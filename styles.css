@@ -477,7 +477,15 @@ body.is-fullscreen .control-panel {
   display: none;
 }
 
+body.settings-hidden .control-panel {
+  display: none;
+}
+
 body.is-fullscreen .workspace {
+  grid-template-columns: 1fr;
+}
+
+body.settings-hidden .workspace {
   grid-template-columns: 1fr;
 }
 
