@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sentence Prompter</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace">
+        <aside class="control-panel" aria-label="프롬프터 설정">
+          <div class="brand-row">
+            <div>
+              <p class="eyebrow">Sentence Prompter</p>
+              <h1>문장 단위 프롬프터</h1>
+            </div>
+            <button class="icon-button" id="fullscreenButton" type="button" title="전체 화면">
+              ⛶
+            </button>
+          </div>
+
+          <label class="script-label" for="scriptInput">대본</label>
+          <textarea
+            id="scriptInput"
+            spellcheck="false"
+            placeholder="여기에 대본을 붙여넣으세요. 문장 부호와 줄바꿈을 기준으로 한 문장씩 넘겨집니다."
+          ></textarea>
+
+          <div class="action-row">
+            <button class="primary-button" id="prepareButton" type="button">프롬프터 준비</button>
+            <button class="secondary-button" id="sampleButton" type="button">샘플</button>
+          </div>
+
+          <div class="stats-grid" aria-live="polite">
+            <div>
+              <span id="sentenceCount">0</span>
+              <small>문장</small>
+            </div>
+            <div>
+              <span id="totalDuration">0:00</span>
+              <small>예상 시간</small>
+            </div>
+            <div>
+              <span id="currentMeta">0 / 0</span>
+              <small>현재</small>
+            </div>
+          </div>
+
+          <section class="settings-group" aria-labelledby="timingTitle">
+            <h2 id="timingTitle">속도</h2>
+            <label>
+              읽기 속도
+              <span><output id="speedOutput">7</output> 글자/초</span>
+              <input id="speedRange" type="range" min="3" max="16" step="0.5" value="7" />
+            </label>
+            <label>
+              최소 표시
+              <span><output id="minTimeOutput">1.8</output>초</span>
+              <input id="minTimeRange" type="range" min="0.8" max="5" step="0.1" value="1.8" />
+            </label>
+            <label>
+              최대 표시
+              <span><output id="maxTimeOutput">9</output>초</span>
+              <input id="maxTimeRange" type="range" min="4" max="20" step="0.5" value="9" />
+            </label>
+          </section>
+
+          <section class="settings-group" aria-labelledby="positionTitle">
+            <h2 id="positionTitle">표시 위치</h2>
+            <div class="position-grid" id="positionGrid" aria-label="프롬프터 위치">
+              <button type="button" data-position="top-left" title="좌상단"></button>
+              <button type="button" data-position="top-center" title="상단 중앙"></button>
+              <button type="button" data-position="top-right" title="우상단"></button>
+              <button type="button" data-position="middle-left" title="중앙 왼쪽"></button>
+              <button type="button" data-position="middle-center" title="정중앙"></button>
+              <button type="button" data-position="middle-right" title="중앙 오른쪽"></button>
+              <button type="button" data-position="bottom-left" title="좌하단"></button>
+              <button type="button" data-position="bottom-center" title="하단 중앙"></button>
+              <button type="button" data-position="bottom-right" title="우하단"></button>
+            </div>
+            <label>
+              가로 보정
+              <span><output id="offsetXOutput">0</output>%</span>
+              <input id="offsetXRange" type="range" min="-30" max="30" step="1" value="0" />
+            </label>
+            <label>
+              세로 보정
+              <span><output id="offsetYOutput">0</output>%</span>
+              <input id="offsetYRange" type="range" min="-25" max="25" step="1" value="0" />
+            </label>
+          </section>
+
+          <section class="settings-group" aria-labelledby="displayTitle">
+            <h2 id="displayTitle">화면</h2>
+            <label>
+              글자 크기
+              <span><output id="fontOutput">56</output>px</span>
+              <input id="fontRange" type="range" min="28" max="96" step="2" value="56" />
+            </label>
+            <label>
+              문장 영역 너비
+              <span><output id="widthOutput">68</output>%</span>
+              <input id="widthRange" type="range" min="34" max="94" step="2" value="68" />
+            </label>
+            <div class="toggle-row">
+              <label class="toggle">
+                <input id="darkToggle" type="checkbox" checked />
+                어두운 배경
+              </label>
+              <label class="toggle">
+                <input id="mirrorToggle" type="checkbox" />
+                좌우 반전
+              </label>
+            </div>
+          </section>
+        </aside>
+
+        <section class="stage-wrap">
+          <div class="stage-toolbar" aria-label="프롬프터 재생 제어">
+            <button id="prevButton" type="button">이전</button>
+            <button id="playButton" type="button">재생</button>
+            <button id="nextButton" type="button">다음</button>
+            <button id="resetButton" type="button">처음</button>
+          </div>
+
+          <section class="prompter-stage dark" id="prompterStage" aria-label="프롬프터 화면" tabindex="0">
+            <div class="prompt-box top-center" id="promptBox">
+              <p id="sentenceText">대본을 붙여넣고 프롬프터 준비를 누르세요.</p>
+              <div class="sentence-footer">
+                <span id="sentenceTimer">0.0초</span>
+                <span id="sentenceIndex">0 / 0</span>
+              </div>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <div id="progressBar"></div>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
