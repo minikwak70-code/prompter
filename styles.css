@@ -342,7 +342,8 @@ input[type="range"] {
   overflow-wrap: anywhere;
 }
 
-.prompt-box.mirrored p {
+.prompt-box.mirrored #sentenceText,
+.prompt-box.mirrored .next-preview li {
   transform: scaleX(-1);
 }
 
@@ -361,11 +362,31 @@ input[type="range"] {
   font-weight: 900;
 }
 
-.next-preview p {
+.next-preview ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 24px;
+}
+
+.next-preview li {
   color: rgba(252, 251, 247, 0.78);
   font-size: clamp(18px, calc(var(--font-size, 56px) * 0.42), 34px);
   font-weight: 700;
   line-height: 1.4;
+  padding-left: 4px;
+}
+
+.next-preview li:nth-child(2) {
+  opacity: 0.78;
+}
+
+.next-preview li:nth-child(3) {
+  opacity: 0.62;
+}
+
+.next-preview li.is-empty {
+  list-style: none;
 }
 
 .next-preview.is-empty {
@@ -376,7 +397,7 @@ input[type="range"] {
   border-top-color: rgba(17, 19, 21, 0.14);
 }
 
-.prompter-stage.light .next-preview p {
+.prompter-stage.light .next-preview li {
   color: rgba(17, 19, 21, 0.68);
 }
 
